@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Theme tokens
+ * -----------------------------------------------------------------------
+ * Two deliberately different palettes, switched by a `.dark` class on
+ * <html> (see ThemeProvider.tsx). Light is the default on first visit.
+ *
+ * Light = strictly white / gray / black, as requested — no blue/cyan/violet
+ * accents at all; "accent" in light mode IS black, so buttons/highlights
+ * read as ink-on-paper rather than a colorful UI.
+ *
+ * Dark = the original AI/robotics identity (near-black void, electric
+ * blue + neon cyan signal colors), unchanged from before.
+ */
+:root {
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Light theme (default) */
+  --c-bg: #ffffff;
+  --c-bg-soft: #f4f4f5;
+  --c-bg-raised: #e8e8ea;
+  --c-text: #0a0a0a;
+  --c-text-muted: #52525b;
+  --c-text-faint: #8b8b93;
+  --c-border: rgba(0, 0, 0, 0.1);
+  --c-accent: #0a0a0a;
+  --c-accent-contrast: #ffffff;
+  --c-accent-soft: #52525b;
+  --c-glass-bg: rgba(255, 255, 255, 0.65);
+  --c-glass-border: rgba(0, 0, 0, 0.08);
+  --c-selection-bg: #0a0a0a;
+  --c-selection-text: #ffffff;
+  --c-scrollbar-track: #f4f4f5;
+  --c-scrollbar-thumb: #c7c7cc;
+  --c-scrollbar-thumb-hover: #0a0a0a;
+}
+
+html.dark {
+  --c-bg: #05070c;
+  --c-bg-soft: #0a0e17;
+  --c-bg-raised: #0f1420;
+  --c-text: #f4f6fb;
+  --c-text-muted: #98a2b8;
+  --c-text-faint: #5b6478;
+  --c-border: rgba(255, 255, 255, 0.1);
+  --c-accent: #3e7bfa;
+  --c-accent-contrast: #ffffff;
+  --c-accent-soft: #29e7d9;
+  --c-glass-bg: rgba(15, 20, 32, 0.55);
+  --c-glass-border: rgba(255, 255, 255, 0.08);
+  --c-selection-bg: #29e7d9;
+  --c-selection-text: #05070c;
+  --c-scrollbar-track: #05070c;
+  --c-scrollbar-thumb: #1e3a73;
+  --c-scrollbar-thumb-hover: #3e7bfa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis owns smooth scroll; avoid double-smoothing */
+}
+
+body {
+  background-color: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::selection {
+  background: var(--c-selection-bg);
+  color: var(--c-selection-text);
+}
+
+/* Thin, on-brand scrollbar (WebKit) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--c-scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-scrollbar-thumb);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c-scrollbar-thumb-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom cursor: hide the native one only where the cursor component is
+   actually active (desktop, fine pointer, motion allowed) — see
+   CustomCursor.tsx, which toggles this class on <html>. */
+html.custom-cursor-active,
+html.custom-cursor-active a,
+html.custom-cursor-active button {
+  cursor: none;
+}
+
+.glass {
+  background: var(--c-glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--c-glass-border);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--c-accent), var(--c-accent-soft));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
