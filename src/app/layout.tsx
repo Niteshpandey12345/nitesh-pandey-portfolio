@@ -14,12 +14,22 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${profile.name} — ${profile.title}`,
     description: profile.heroSummary,
-    type: "website"
+    type: "website",
+    url: "https://niteshpandey.in",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: `${profile.name} — ${profile.title}`
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
     title: `${profile.name} — ${profile.title}`,
-    description: profile.heroSummary
+    description: profile.heroSummary,
+    images: ["/og-image.jpg"]
   },
   robots: { index: true, follow: true }
 };
