@@ -7,8 +7,9 @@ const FRAME_PATH = (i: number) => `/video/hero-frames/frame-${String(i).padStart
 // Higher = snappier/more literal to the cursor, lower = smoother/more trailing.
 const EASE = 0.35;
 // Auto-play speed (frames per second) used for touch devices / reduced-motion,
-// where there's no hover to scrub with.
-const AUTOPLAY_FPS = 18;
+// where there's no hover to scrub with. Kept slow and gentle — this is
+// ambient motion, not something that should draw attention to itself.
+const AUTOPLAY_FPS = 10;
 
 /**
  * Renders the hero head-turn sequence as individual JPEG frames drawn onto a
@@ -77,15 +78,27 @@ export function HeroFrameCanvas({ className }: { className?: string }) {
     resize();
 
     if (reducedMotion || coarsePointer) {
+      // Ping-pong back and forth through the sequence instead of wrapping
+      // (0 -> 191 -> jump back to 0), which read as an abrupt "snap" on
+      // mobile. Bouncing at each end keeps it as one continuous motion.
       let last = performance.now();
       let acc = 0;
+      let direction: 1 | -1 = 1;
       const frameDuration = 1000 / AUTOPLAY_FPS;
       const loop = (now: number) => {
         acc += now - last;
         last = now;
         if (acc >= frameDuration) {
           acc = 0;
-          currentFrame.current = (currentFrame.current + 1) % FRAME_COUNT;
+          let next = currentFrame.current + direction;
+          if (next >= FRAME_COUNT - 1) {
+            next = FRAME_COUNT - 1;
+            direction = -1;
+          } else if (next <= 0) {
+            next = 0;
+            direction = 1;
+          }
+          currentFrame.current = next;
           draw(Math.round(currentFrame.current));
         }
         rafId.current = requestAnimationFrame(loop);
