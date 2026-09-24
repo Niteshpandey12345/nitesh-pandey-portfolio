@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     url: "https://niteshpandey.in",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
         alt: `${profile.name} — ${profile.title}`
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${profile.name} — ${profile.title}`,
     description: profile.heroSummary,
-    images: ["/og-image.jpg"]
+    images: ["/images/og-image.jpg"]
   },
   robots: { index: true, follow: true }
 };
