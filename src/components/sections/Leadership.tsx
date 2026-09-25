@@ -52,9 +52,7 @@ export function Leadership() {
                 >
                   <GlassCard className="p-4">
                     <p className="font-display text-sm text-[var(--c-text)]">{r.org}</p>
-                    <p className="mt-1 text-xs text-[var(--c-text-faint)]">
-                      {r.quote ?? "TODO: add the actual recommendation text from this organization."}
-                    </p>
+                    {r.quote && <p className="mt-1 text-xs text-[var(--c-text-faint)]">{r.quote}</p>}
                     {r.letterUrl && (
                       <a
                         href={r.letterUrl}
